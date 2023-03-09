@@ -61,8 +61,6 @@ struct Node {
 */
 Node* createTree(std::vector<int> tree_array) {
 
-  std::cout << "===" << std::endl;
-
   // Pre-create all the pointers to the nodes of the tree. NOT create them on the fly in the loop.
   std::vector<Node*> tree_array_ndptr;
   for(int elem : tree_array) tree_array_ndptr.push_back(new Node(elem));
@@ -106,8 +104,6 @@ Node* createTree(std::vector<int> tree_array) {
 
     }
   }
-
-  std::cout << "===" << std::endl;
 
   return root;
 }
@@ -153,6 +149,29 @@ std::vector<std::vector<Node*>> levelOrderTraversal(Node* nd) {
   return ret_vec;
 }
 
+void orderedTraversal(Node* nd, std::vector<Node*>& ret_vec, std::string type) {
+  
+  if(type == "in") {
+    if(nd->left != nullptr) orderedTraversal(nd->left, ret_vec, "in");
+    ret_vec.push_back(nd);
+    if(nd->right != nullptr) orderedTraversal(nd->right, ret_vec, "in");
+  }
+
+  else if(type == "pre") {
+    ret_vec.push_back(nd);
+    if(nd->left != nullptr) orderedTraversal(nd->left, ret_vec, "pre");
+    if(nd->right != nullptr) orderedTraversal(nd->right, ret_vec, "pre");
+  }
+
+  if(type == "post") {
+    if(nd->left != nullptr) orderedTraversal(nd->left, ret_vec, "post");
+    if(nd->right != nullptr) orderedTraversal(nd->right, ret_vec, "post");
+    ret_vec.push_back(nd);
+  }
+
+}
+
+
 int main() {
 
   /*
@@ -165,16 +184,28 @@ int main() {
 
   */
   // std::vector<int> tree = {7, 3, 8, 9, 10, nullptr, nullptr};
-  std::vector<int> tree_array = {7, 3, 8, 9, 10, -1, -1, 11, 12, 13, 14};
-  // std::vector<int> tree_array = {2,1,3,0,7,9,1,2,-1,1,0,-1,-1,8,8,-1,-1,-1,-1,7};
+  std::vector<int> tree_array = {7, 3, 8, 9, 10, -1, -1, 11, 12, 13, 14}; // Level order traversal representation of a tree in a single array
+  // std::vector<int> tree_array = {2,1,3,0,7,9,1,2,-1,1,0,-1,-1,8,8,-1,-1,-1,-1,7}; // Level order traversal representation of a tree in a single array
 
 
+  std::cout << "===" << std::endl;
   Node* root = createTree(tree_array);
-  
+  std::cout << "===" << std::endl;
 
+
+  std::cout << "===" << std::endl;
   // std::vector<std::vector<Node*>> level_order_traversal_array = levelOrderTraversal(root);
   levelOrderTraversal(root);
+  std::cout << "===" << std::endl;
 
+  std::cout << "===" << std::endl;
+  std::vector<Node*> ordered_traversal_vec;
+  // orderedTraversal(root, ordered_traversal_vec, "in");
+  orderedTraversal(root, ordered_traversal_vec, "pre");
+  // orderedTraversal(root, ordered_traversal_vec, "post");
+  for(Node* nd : ordered_traversal_vec) std::cout << nd->val << ", ";
+  std::cout << std::endl;
+  std::cout << "===" << std::endl;
 
   return 0;
 }
