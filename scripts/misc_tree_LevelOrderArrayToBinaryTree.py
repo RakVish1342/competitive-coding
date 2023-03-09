@@ -3,7 +3,10 @@
 """
 Source: https://leetcode.com/problems/recover-binary-search-tree/solutions/32539/Tree-Deserializer-and-Visualizer-for-Python/
 
-
+Use of the general rule to represent binary trees as given below will only hold for partially existent trees if all the non-existent parent and child nodes are represented with NULL at every single level till the base/final level (to create a complete tree) and not simply left black once a given parent has no child nodes.
+    Parent = i
+    Child Left = 2*i + 1
+    Child Right = 2*i + 2
 """
 class TreeNode:
     def __init__(self, val, left=None, right=None):
